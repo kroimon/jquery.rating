@@ -3,7 +3,7 @@
 
 An easy to use rating control. It takes a normal select box, and turns it into a rating that your users can click on. The select box is preserved so you can still bind on change, get, and set the value in the rating control. The image is controlled with CSS and a simple gif, so you can make it look like anything you need.
 
-	
+
     <select class="rating">
         <option value="0">Did not like</option>
         <option value="1">Ok</option>

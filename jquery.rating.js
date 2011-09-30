@@ -12,8 +12,8 @@
 //
 
 //Keeps '$' pointing to the jQuery version
-(function ($) { 
-	
+(function ($) {
+
 	$.fn.rating = function(options)
 	{
 		//
@@ -36,13 +36,13 @@
            hoverOver: function(evt)
 			{
 				var elm = $(evt.target);
-				
+
 				//Are we over the Cancel or the star?
 				if( elm.hasClass("ui-rating-cancel") )
 				{
 					elm.addClass("ui-rating-cancel-full");
-				} 
-				else 
+				}
+				else
 				{
 					elm.prevAll().andSelf()
 						.not(".ui-rating-cancel")
@@ -80,7 +80,7 @@
 					elm.closest(".ui-rating-star").prevAll().andSelf()
 						.not(".ui-rating-cancel")
 						.prop("className", "ui-rating-star ui-rating-full");
-					//Set the stars after us as empty 
+					//Set the stars after us as empty
 					elm.closest(".ui-rating-star").nextAll()
 						.not(".ui-rating-cancel")
 						.prop("className", "ui-rating-star ui-rating-empty");
@@ -90,7 +90,7 @@
 					//Use our value
 					value = elm.attr("value");
 				}
-				
+
 				//Set the select box to the new value
 				if( !evt.data.hasChanged )
 				{
@@ -102,14 +102,14 @@
 				var value =  $(this).val();
 				methods.setValue(value, evt.data.container, evt.data.selectBox);
 				if (isDirty)
-		            isDirty = true;				
+		            isDirty = true;
 			},
 			setValue: function(value, container, selectBox)
 			{
 				//Set a new target and let the method know the select has already changed.
 				var evt = {"target": null, "data": {}};
 
-				evt.target = $(".ui-rating-star[title="+ value +"]", container);				
+				evt.target = $(".ui-rating-star[title="+ value +"]", container);
 				evt.data.selectBox = selectBox;
 				evt.data.hasChanged = true;
 				methods.click(evt);
@@ -118,12 +118,12 @@
 			{
 				// Fix to remove all stars
 				parent.find('.ui-rating-star').removeClass('ui-rating-full');
-				parent.find('.ui-rating-star').addClass('ui-rating-empty');				
+				parent.find('.ui-rating-star').addClass('ui-rating-empty');
 				//Clear all of the stars
 				elm.prop("className", "ui-rating-cancel ui-rating-cancel-empty")
 					.nextAll().prop("className", "ui-rating-star ui-rating-empty");
 			}
- 
+
         };
 
         //
@@ -146,10 +146,10 @@
             self.hide();
             // mark the element so we don't process it more than once.
             self.prop('hasProcessed', true);
-            
+
             //
             // create the new HTML element
-            // 
+            //
             // create a div and add it after the select box
             elm = $("<div/>").prop({
                 title: this.title,  // if there was a title, preserve it.
@@ -165,7 +165,7 @@
                         title: $(this).text(),   // perserve the option text as a title.
                         value: this.value        // perserve the value.
                     }).appendTo(elm);
-				}    
+				}
             });
             // create the cancel
             if (true == settings.showCancel) {
@@ -177,7 +177,7 @@
             // perserve the selected value
             //
             if ( 0 !==  $('option:selected', self).size() ) {
-                //methods.setValue(                
+                //methods.setValue(
                 methods.setValue( self.val(), elm, self );
             } else {
                 //Use a start value if we have it, otherwise use the cancel value.
@@ -186,21 +186,21 @@
 				//Make sure the selectbox knows our desision
 				self.val(val);
             }
-            
+
             //Should we do any binding?
 			if( true !== settings.disabled && self.prop("disabled") !== true )
-			{	
+			{
 			    //Bind our events to the container
 			    $(elm).bind("mouseover", methods.hoverOver)
 				    .bind("mouseout", methods.hoverOut)
 				    .bind("click",{"selectBox": self}, methods.click);
-			}	
+			}
 
             //Update the stars if the selectbox value changes.
 			self.bind("change", {"selectBox": self, "container": elm},  methods.change);
 
         });
-		
+
 	};
 
 })(jQuery);

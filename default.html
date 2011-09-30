@@ -1,45 +1,45 @@
 <html>
 <head>
 	<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
-	
+
 	<script type="text/javascript" src="jquery.rating.js"></script>
 	<link rel="stylesheet" media="screen" type="text/css" href="jquery.rating.css" />
-	
+
 	<script type="text/javascript">
 		$(document).ready(function(){
 			//Turn all the select boxes into rating controls
 		    $(".rating").rating();
-		
+
 			//Show that we can bind on the select box
 			$("#serialStar2").bind("change", function(){
 				$('#serialString2').text( $('#serialStar2').serialize() );
 			});
-			
+
 			$("#serialStar").rating();
-			
-		});		
-	
+
+		});
+
 	</script>
-	
+
 </head>
 <body>
 	<h2>What</h2>
 	<p>
 	An easy to use rating control. It takes a normal select box, and turns it into a rating that your users can click on. The select box is preserved so you can still bind on change, get, and set the value in the rating control. The image is controlled with CSS and a simple gif, so you can make it look like anything you need.</p>
-	
+
 	<h2>Example</h2>
 	<p>
 	Here is a sample default rating control with no options.
 	</p>
-	<select class="rating" id="tmp"> 
+	<select class="rating" id="tmp">
 	    <option value="0">Did not like</option>
 	    <option value="1">Ok</option>
 	    <option value="2" selected="selected">Liked</option>
 	    <option value="3">Loved!</option>
 	</select>
-	
+
 <h4 style="clear: both;">Source</h4>
-<pre name="code" class="html">	
+<pre name="code" class="html">
 &lt;select class="rating"&gt;
     &lt;option value="0"&gt;Did not like&lt;/option&gt;
     &lt;option value="1"&gt;Ok&lt;/option&gt;
@@ -56,7 +56,7 @@ $(".rating").rating();
 	The select box is now replaced with the rating control. Each option you put in the select box is turned into a star, so you can easily have as many stars as you want. The value you set is the value that is returned for the selected star. The text becomes the title on the star.
 </p>
 <p>
-	You can turn the cancel button on and off, and change the value of the cancel button by passing it when you create the rating control. 
+	You can turn the cancel button on and off, and change the value of the cancel button by passing it when you create the rating control.
 	<code>$(".rating").rating({showCancel: true, cancelValue: null,})</code>
 </p>
 <p>
@@ -80,7 +80,7 @@ $(".rating").rating();
 <button onclick="$('#seralString').text( $('#serialStar').val() );">Serialize</button>
 
 <h4>Source</h4>
-<pre name="code" class="html">	
+<pre name="code" class="html">
 &lt;select name="myRating" class="rating" id="serialStar"&gt;
     &lt;option value="0"&gt;Did not like&lt;/option&gt;
     &lt;option value="1"&gt;Ok&lt;/option&gt;
@@ -109,7 +109,7 @@ $('#seralString').text( $('#serialStar').val() );
 <span id="serialString2">Just click and I'll change.</span>
 
 <h4>Source</h4>
-<pre name="code" class="html">	
+<pre name="code" class="html">
 &lt;select name="myRating" class="rating" id="serialStar2"&gt;
     &lt;option value="1"&gt;ALrighte&lt;/option&gt;
     &lt;option value="2"&gt;Ok&lt;/option&gt;
@@ -140,7 +140,7 @@ $("#serialStar2").bind("change", function(){
 </select>
 <button onclick="$('#star3').val(4).change()">Set to 'Pretty Good'</button>
 
-<pre name="code" class="html">	
+<pre name="code" class="html">
 &lt;select name="myRating" class="rating" id="serialStar2"&gt;
     &lt;option value="1"&gt;ALrighte&lt;/option&gt;
     &lt;option value="2"&gt;Ok&lt;/option&gt;
