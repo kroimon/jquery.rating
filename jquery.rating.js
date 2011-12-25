@@ -18,6 +18,7 @@
 			showCancel: true,
 			cancelValue: null,
 			cancelTitle: "Cancel",
+			cancelBefore: false,
 			startValue: null,
 			disabled: false
 		};
@@ -135,10 +136,15 @@
 
 			// Create the cancel
 			if (settings.showCancel) {
-				$(document.createElement("a")).attr({
+				var cancel = $(document.createElement("a")).attr({
 					"class": "ui-rating-cancel ui-rating-cancel-empty",
 					"title": settings.cancelTitle,
-				}).appendTo(elm);
+				});
+				if (settings.cancelBefore) {
+					cancel.prependTo(elm);
+				} else {
+					cancel.appendTo(elm);
+				}
 			}
 
 			// Preserve the selected value
