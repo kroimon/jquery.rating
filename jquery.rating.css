@@ -1,36 +1,57 @@
-.ui-rating .ui-rating-star, .ui-rating .ui-rating-cancel{
-    width:16px;
-    height:16px;
-    font-size:2px;
-    float:left;
-    text-decoration:none;
-    vertical-align:bottom;
-    background-image:url(star.gif);
-    background-repeat:no-repeat;
+.ui-rating div.ui-rating-star, .ui-rating div.ui-rating-cancel {
+	float: left;
+	width: 16px;
+	height: 16px;
+	overflow: hidden;
 }
+
 .ui-rating a {
+	display: block;
+	width: 16px;
+	height: 16px;
+	text-decoration: none;
+	background-image: url("star.gif");
+	background-repeat: no-repeat;
 	cursor: pointer;
 }
-.ui-rating-full  {
-    background-position:left top;
+
+.ui-rating-disabled a {
+	cursor: default;
 }
 
-.ui-rating-half  {
-    background-position:left -16px;
+/* Attention: Order matters! */
+.ui-rating .ui-rating-star a {
+	background-position: left -32px;
 }
 
-.ui-rating-empty {
-    background-position:left -32px;
+.ui-rating .ui-rating-star-full a {
+	background-position: left 0px;
 }
 
-.ui-rating-cancel-empty {
-    background-position:left -64px;
+.ui-rating .ui-rating-star-hover a {
+	background-position: left -48px;
 }
 
-.ui-rating-cancel-full {
-    background-position:left -80px;
+.ui-rating .ui-rating-cancel a {
+	background-position: left -64px;
 }
 
-.ui-rating-hover {
-    background-position:left -48px;
+.ui-rating .ui-rating-cancel-hover a {
+	background-position: left -80px;
 }
+
+/* Clearfix */
+.ui-rating:after {
+  content: ".";
+  display: block;
+  clear: both;
+  font-size: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+/* IE7 patch */
+*:first-child+html .ui-rating { min-height: 0; }
+
+/* IE6 patch */
+* html .ui-rating { height: 1%; }

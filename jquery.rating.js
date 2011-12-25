@@ -15,6 +15,7 @@
 		// Settings
 		//
 		var settings = {
+			split: 1,
 			showCancel: true,
 			cancelValue: null,
 			cancelTitle: "Cancel",
@@ -25,54 +26,55 @@
 
 		// if options exist, merge with our settings
 		if (options) { $.extend( settings, options); }
+		
+		if (settings.split < 1)
+			settings.split = 1;
 
 		//
 		// Methods
 		//
 		var methods = {
 			hoverOver: function(evt) {
-				var elm = $(evt.target);
+				var elm = $(evt.target.parentNode);
 
 				// Are we over the cancel or a star?
 				if (elm.hasClass("ui-rating-cancel")) {
-					elm.attr("class", "ui-rating-cancel ui-rating-cancel-full");
+					elm.addClass("ui-rating-cancel-hover");
 				} else {
 					elm.prevAll().andSelf()
 						.not(".ui-rating-cancel")
-						.addClass("ui-rating-hover");
+						.addClass("ui-rating-star-hover");
 				}
 			},
 			hoverOut: function(evt) {
-				var elm = $(evt.target);
+				var elm = $(evt.target.parentNode);
 				// Are we over the cancel or a star?
 				if (elm.hasClass("ui-rating-cancel")) {
-					elm.attr("class", "ui-rating-cancel ui-rating-cancel-empty");
+					elm.removeClass("ui-rating-cancel-hover");
 				} else {
 					elm.prevAll().andSelf()
 						.not(".ui-rating-cancel")
-						.removeClass("ui-rating-hover");
+						.removeClass("ui-rating-star-hover");
 				}
 			},
 			click: function(evt) {
-				var elm = $(evt.target);
+				var elm = $(evt.target).parent();
 				var value = settings.cancelValue;
 
 				// Are we over the cancel or a star?
 				if (elm.hasClass("ui-rating-cancel")) {
 					// remove all stars
 					elm.siblings(".ui-rating-star")
-						.attr("class", "ui-rating-star ui-rating-empty");
-					elm.attr("class", "ui-rating-cancel ui-rating-cancel-empty");
+						.removeClass("ui-rating-star-full");
 				} else {
 					// Set current and stars on the left to full
-					elm.prevAll().andSelf().not(".ui-rating-cancel")
-						.attr("class", "ui-rating-star ui-rating-full");
-					// Set the stars to the right to empty
-					elm.nextAll().not(".ui-rating-cancel")
-						.attr("class", "ui-rating-star ui-rating-empty");
-					// Uncheck the cancel
-					elm.siblings(".ui-rating-cancel")
-						.attr("class", "ui-rating-cancel ui-rating-cancel-empty");
+					elm.prevAll().andSelf()
+						.not(".ui-rating-cancel")
+						.addClass("ui-rating-star-full");
+					// Set the stars after us as empty
+					elm.nextAll()
+						.not(".ui-rating-cancel")
+						.removeClass("ui-rating-star-full");
 					// Use our value
 					value = elm.attr("data-value");
 				}
@@ -89,7 +91,7 @@
 				// Set a new target and let the method know the select has already changed
 				var evt = {"target": null, "data": {}};
 
-				evt.target = $(".ui-rating-star[data-value="+ value +"]", container);
+				evt.target = $(".ui-rating-star[data-value="+ value +"] a", container);
 				evt.data.selectBox = selectBox;
 				evt.data.hasChanged = true;
 				methods.click(evt);
@@ -123,21 +125,30 @@
 			}).insertAfter(self);
 
 			// create all of the stars
+			var index = 0;
 			$('option', self).each(function() {
 				// only convert options with a value
 				if (this.value !== "") {
-					$(document.createElement("a")).attr({
-						"class": "ui-rating-star ui-rating-empty",
+					var star = $('<div class="ui-rating-star"><a></div>').attr({
 						"title": $(this).text(),
 						"data-value": this.value,
 					}).appendTo(elm);
+
+					if (settings.split > 1) {
+						var splitIndex = (index % settings.split);
+						var splitWidth = Math.floor(star.width() / settings.split);
+						star
+							.width(splitWidth)
+							.find("a").css('margin-left', '-' + (splitIndex * splitWidth) + 'px');
+					}
+
+					index++;
 				}
 			});
 
 			// Create the cancel
 			if (settings.showCancel) {
-				var cancel = $(document.createElement("a")).attr({
-					"class": "ui-rating-cancel ui-rating-cancel-empty",
+				var cancel = $('<div class="ui-rating-cancel"><a></div>').attr({
 					"title": settings.cancelTitle,
 				});
 				if (settings.cancelBefore) {
@@ -161,10 +172,12 @@
 			// Should we do any binding?
 			if (settings.disabled === false && self.is(":disabled") === false) {
 				// Bind our events to the container
-				elm
+				elm.find("a")
 					.bind("mouseover", methods.hoverOver)
 					.bind("mouseout", methods.hoverOut)
 					.bind("click", {"selectBox": self}, methods.click);
+			} else {
+				elm.addClass('ui-rating-disabled');
 			}
 
 			// Update the stars if the selectbox value changes
